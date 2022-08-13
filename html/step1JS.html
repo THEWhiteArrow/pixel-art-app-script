@@ -1,0 +1,29 @@
+<script>
+  const form = document.getElementById('form-paii')
+
+
+  const manageForm = async (e) => {
+    e.preventDefault()
+    const data = {}
+    for(let i = 0 ; i < form.length ; ++i )
+      if(form[i].checked || form[i].files)  data[form[i].name] = data[form[i].value]
+    
+    const array = await getImgPixels(data)
+  }
+
+
+  const getImgPixels = data => {
+    console.log(data)
+
+    const file = form[0].files[0]  
+    const fr = new FileReader
+    fr.onload = () =>console.log(fr.result)
+      
+    fr.readAsDataURL(file)
+  }
+
+
+
+
+  form.addEventListener('submit', manageForm)
+</script>
