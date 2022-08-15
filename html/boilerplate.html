@@ -3,10 +3,10 @@
   <head>
     <base target="_top">
        
-    <?!= includePro('resetCSS') ?>
-    <?!= includePro('bootstrapCSS') ?>
-    <?!= includePro('bootstrapJS') ?> 
-    <?!= includePro('styles') ?> 
+    <?!= includePro_('lib/resetCSS') ?>
+    <?!= includePro_('lib/bootstrapCSS') ?>
+    <?!= includePro_('lib/bootstrapJS') ?> 
+    <?!= includePro_('html/styles') ?> 
 
   </head>
   <body class="d-flex flex-column min-vh-100 container-fluid">
@@ -17,19 +17,22 @@
     </section>
     <section id="toastContainer" class="toast-container position-static"></section>
 
-    <?!= includePro('boilerplateJS') ?>
+    <?!= includePro_('html/boilerplateJS',data) ?>
  
-    
+    <section class="container d-flex justify-content-center">
+      <!-- <h1 class="my-2">Pixel Art Creator</h1> --> 
+      <img id="logo" src="https://res.cloudinary.com/dcj6ujzqj/image/upload/v1660554198/PAC/Pixel_Art_Creator_hw9mey.png" alt="Pixel_Art_Creator_logo">
 
-    <main id="boilerplateBody" class="pt-4">
+    </section>
+
+    
     <? if(data && data.body){ ?>
-      <?!= includePro(data.body,data) ?>
+      <?!= includePro_(data.body,data) ?>
     <? } ?>
-    </main>
+ 
 
-    
-     
-    <?!= includePro('footer') ?>
+ 
+    <?!= includePro_('html/footer') ?>
  
 
   </body>

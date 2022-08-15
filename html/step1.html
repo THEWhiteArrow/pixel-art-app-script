@@ -1,169 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  
-
-
-
-<form id="form-paii">
-  <section>
-    <h3>Image</h3>
-    <label for="fileInput" class="form-label">File</label>
-    <input class="form-control" type="file" id="fileInput" name="file"> 
-  </section>
-
-  <section>
-    <h3>Quality</h3> 
-    <input type="radio" class="btn-check" name="quality" value="32" id="quality-low" autocomplete="off" checked>
-    <label class="btn btn-outline-primary" for="quality-low">Low</label>
-    
-    <input type="radio" class="btn-check" name="quality" value="128" id="quality-medium" autocomplete="off">
-    <label class="btn btn-outline-primary" for="quality-medium">Medium</label>
-    
-    <input type="radio" class="btn-check" name="quality" value="512" id="quality-high" autocomplete="off">
-    <label class="btn btn-outline-primary" for="quality-high">High</label>
-  </section>
-   
-
-  <section>
-    <h3>Type</h3>
-    <input type="radio" class="btn-check" name="type" value="colors" id="type-colors" autocomplete="off" checked>
-    <label class="btn btn-outline-success" for="type-colors">Colors</label>
-    
-    <input type="radio" class="btn-check" name="type" value="emojis" id="type-emojis" autocomplete="off">
-    <label class="btn btn-outline-success" for="type-emojis">Emojis</label>
-    
-    <input type="radio" class="btn-check" name="type" value="characters" id="type-characters" autocomplete="off">
-    <label class="btn btn-outline-success" for="type-characters">Characters</label>
-  </section>
-
-  <button type="submit" class="btn btn-success">Apply pixel art</button>
-</form>
-
-<!-- <?!= includePro('sidebarJS') ?> -->
-<script>
-  const form = document.getElementById('form-paii')
-   
-
-
-
-
-
-  const manageForm = async (e) => {
-    e.preventDefault()
-     
-    let data = new Object
-    for(let i = 0 ; i < form.length ; ++i )
-    if(form[i].checked)  {
-      console.log( form[i].name , form[i].value )
-      data[form[i].name] = form[i].value
-    } 
-    else if(form[i].files) data.file=form[i].files[0]
-    
-    if(data.file===undefined){return alert('no file was provided...')}
-    
-    const array = await getImgPixels(data)
-    // gsr('pixelArt',{array})    
-  }
-
-
-  const getImgPixels = data => new Promise( (resolve,reject) => {
-    const {file, type, quality} = data
-
-    const fr = new FileReader
-    fr.onload = async () => {
-      const url = fr.result
-      console.log('...i am here...')
-      const arr = await getPixelsDimensionalArr(url,quality)  
-      resolve(arr)
-    }
-    
-    console.log(file)
-    fr.readAsDataURL(file)
-  })
-
-  const getPixelsDimensionalArr = (url,quality) => new Promise( (resolve,reject)=>{
-    const c = document.createElement('canvas')
-    document.body.append(c) 
-    const ctx = c.getContext('2d')
-
-    const img = new Image
-    img.onload = () => {
-      c.width=img.width
-      c.height=img.height 
-      ctx.clearRect(0,0, c.width, c.height);
-      ctx.drawImage(img, 0,0, c.width, c.height);
-      
-      const array = prepareDimensionalArray(
-          ctx.getImageData(0,0,img.width,img.height).data,
-          c.width,
-          c.height
-      )
-      const shrankArray = shrinkDimensionalArray(array,quality)
-      resolve(shrankArray)
-    }
-    img.src = url
-  })
-
-
-  const shrinkDimensionalArray = (arr, limit) => {
-    const height = Math.floor(arr.length/2)*2 , width = Math.floor(arr[0]?.length/2)*2
-    if(height<=limit && width<=limit) return arr
-
-    let shrankArray = new Array
-    for(let j=0; j<height;j+=2){
-        let row = new Array
-        for(let i=0;i<width;i+=2){
-            row.push( avgV2(
-                arr[j][i],
-                arr[j][i+1],
-                arr[j+1][i],
-                arr[j+1][i+1]
-            ) )
-        }
-        shrankArray.push(row)
-    }
-    if( height/2 <= limit && width/2 <=limit) return shrankArray
-    else return shrinkDimensionalArray(shrankArray,limit)
-  }
-
-  const avgV2 = (...arrays) => arrays
-        .reduce( (prev,arr) => arr.map( (el,index) => Math.floor(el+prev[index])  ) )
-        .map( el => Math.floor(el/arrays.length) )
-  
-
-
-
-
-  const prepareDimensionalArray = (data,width,height)=>{
-    let arr = new Array, counter=0
-    for(let h=1;h<=height;++h){
-        let row = new Array
-        for(let w=1;w<=width;++w){
-            row.push([
-                data[counter++],                
-                data[counter++],                
-                data[counter++],                
-                data[counter++],                
-            ])
-        }
-        arr.push(row)
-    }
-    return arr
-  }
-
-
-
-
-  form.addEventListener('submit', manageForm)
-</script>
-
  
-</body>
-</html>
+  
+
+<main class="container">
+  
+  <form form id="form-paii">
+    <section class="my-3 position-relative">
+      <?!= includePro_('svg/fileUpload') ?>
+      <h2 class="fs-6">Image</h2>
+      <input class="form-control form-control-sm" type="file" id="fileInput" name="file"> 
+    </section>
+    <hr>
+    
+    <section class="my-3 position-relative">
+      <?!= includePro_('svg/qualityEngineer') ?>
+      <h2 class="fs-6">Quality</h2> 
+      <div class="d-flex flex-row flex-wrap">
+        <input type="radio" class="btn-check" name="quality" value="<?= QUALITY_LOW ?>" id="quality-low" autocomplete="off" >
+        <label class="fs-7 btn btn-outline-primary btn-sm  mx-1" for="quality-low">Low</label>
+        
+        <input type="radio" class="btn-check" name="quality" value="<?= QUALITY_MEDIUM ?>" id="quality-medium" autocomplete="off" checked>
+        <label class="fs-7 btn btn-outline-primary btn-sm  mx-1" for="quality-medium">Medium</label>
+      
+        <input type="radio" class="btn-check" name="quality" value="<?= QUALITY_HIGH ?>" id="quality-high" autocomplete="off">
+        <label class="fs-7 btn btn-outline-primary btn-sm  mx-1" for="quality-high">High</label>
+
+        <input type="radio" class="btn-check" name="quality" value="<?= QUALITY_ULTRA ?>" id="quality-ultra" autocomplete="off">
+        <label class="fs-7 btn btn-outline-primary btn-sm  mx-1" for="quality-ultra">Ultra</label>
+      </div>
+ 
+    </section>
+    <hr>
+      
+      
+    <section class="my-3 position-relative">
+      <?!= includePro_('svg/selectOption') ?>
+      <h2 class="fs-6">Type</h2>
+      <div class="d-flex flex-row flex-wrap">
+        <input type="radio" class="btn-check" name="type" value="colors" id="type-colors" autocomplete="off" checked>
+        <label class="fs-7 btn btn-outline-primary btn-sm  mx-1" for="type-colors">Colors</label>
+        
+        <input type="radio" class="btn-check" name="type" value="emojis" id="type-emojis" autocomplete="off">
+        <label class="fs-7 btn btn-outline-primary btn-sm  mx-1" for="type-emojis">Emojis</label>
+        
+        <input type="radio" class="btn-check" name="type" value="ascii" id="type-ascii" autocomplete="off">
+        <label class="fs-7 btn btn-outline-primary btn-sm  mx-1" for="type-ascii">Ascii</label>
+        
+        <input type="radio" class="btn-check" name="type" value="gray" id="type-gray" autocomplete="off">
+        <label class="fs-7 btn btn-outline-primary btn-sm  mx-1" for="type-gray">Gray</label>
+      </div>
+    </section>
+    <hr>
+
+    <section class="my-3 position-relative">
+      <?!= includePro_('svg/sourceCode') ?>
+      <h2 class="fs-6">Sheet</h2>
+      <div class="d-flex flex-row flex-wrap">
+        <input type="radio" class="btn-check" name="sheet" value="new" id="sheet-new" autocomplete="off" checked>
+        <label class="fs-7 btn btn-outline-primary btn-sm  mx-1" for="sheet-new">New</label>
+        
+        <input type="radio" class="btn-check" name="sheet" value="current" id="sheet-current" autocomplete="off" >
+        <label class="fs-7 btn btn-outline-primary btn-sm  mx-1" for="sheet-current">Current</label>
+      </div>
+    </section>
+    <hr>
+        
+    <button type="submit" class="fs-7 mt-4 w-100 btn btn-success btn-sm">CREATE</button>
+  </form>
+        
+</main>
+
+<?!= includePro_('html/step1JS',data) ?>
