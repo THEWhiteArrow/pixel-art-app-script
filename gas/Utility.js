@@ -28,12 +28,117 @@ const grayScale_ = (r,g,b) =>   {
 
 const ascii = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:," + '"' + "^`'. "
 const asciiScale_ = (r,g,b) => ascii[ floor_(luminosity_(r,g,b)*ascii.length/255) ]
-
-// const emojis = `⌚⌛⏩⏪⏫⏬⏭⏮⏯⏰⏱⏲⏳⏸⏹⏺Ⓜ☔☕☝♈♉♊♋♌♍♎♏♐♑♒♓♟♿⚓⚡⚪⚫⚽⚾⛄⛅⛎⛏⛑⛓⛔⛩⛪⛰⛱⛲⛳⛴⛵⛷⛸⛹⛺⛽✂✅✈✉✊✋✌✍✏✒✔✖✝✡✨✳✴❄❇❌❎❓❔❕❗❣❤➕➖➗➡➰➿⤴⤵⬅⬆⬇⬛⬜⭐`
-
+ 
 const emojis = `⬛⚫⬛⚫⬛⚫⬛⚫⛰⛴⛷⛸❤❣⤴✈✏✒✔✖➡❔❕➕➖➗➰➿♈♉♊♋♌♍♎♏♐♑♒♓⛎⌚☔⏩⏪⏫⏬⏭⏮⏯⏸⏹⏺Ⓜ⏲⚓♿☕⚡⛔⛽❌❓❗⏰⛺✅❎✊☝✋✌✍⭐✨⏳⛵⛹⛪⌛⛲⏱⚽⤵♟⛏⛱⛑✉⛓⛩✂⬅⬆⬇✝✡✳✴❄❇⚪⚾⛄⛅⬜`
 const emojisScale_ = (r,g,b) => emojis[ floor_(luminosity_(r,g,b)*emojis.length/255) ]
-  
+
+const emojisObject = {
+    "⬛": "#000000",
+    "⚫": "#000000",
+    "⛰": "#000000",
+    "⛴": "#000000",
+    "⛷": "#000000",
+    "⛸": "#2b2b2b",
+    "❤": "#2b2b2b",
+    "❣": "#2b2b2b",
+    "⤴": "#2b2b2b",
+    "✈": "#2b2b2b",
+    "✏": "#2b2b2b",
+    "✒": "#2b2b2b",
+    "Ⓜ": "#2b2b2b",
+    "✔": "#2b2b2b",
+    "✖": "#2b2b2b",
+    "➡": "#2b2b2b",
+    "⤵": "#383838",
+    "♟": "#383838",
+    "⛏": "#383838",
+    "⛱": "#383838",
+    "⛑": "#383838",
+    "✉": "#383838",
+    "⛓": "#383838",
+    "⛩": "#383838",
+    "✂": "#383838",
+    "⬅": "#383838",
+    "⬆": "#383838", 
+    "✝": "#383838",
+    "✡": "#383838",
+    "✳": "#383838",
+    "✴": "#383838",
+    "❄": "#383838",
+    "❇": "#383838",
+    "❔": "#b4acbc",
+    "❕": "#b4acbc",
+    "➕": "#635994",
+    "➖": "#635994",
+    "➗": "#635994",
+    "➰": "#635994",
+    "➿": "#635994",
+    "♈": "#8d65c5",
+    "♉": "#8d65c5",
+    "♊": "#8d65c5",
+    "♋": "#8d65c5",
+    "♌": "#8d65c5",
+    "♍": "#8d65c5",
+    "♎": "#8d65c5",
+    "♏": "#8d65c5",
+    "♐": "#8d65c5",
+    "♑": "#8d65c5",
+    "♒": "#8d65c5",
+    "♓": "#8d65c5",
+    "⛎": "#8d65c5",
+    "⌚": "#979ce0",
+    "☔": "#8d65c5",
+    "⏩": "#00a6ed",
+    "⏪": "#00a6ed",
+    "⏫": "#00a6ed",
+    "⏬": "#00a6ed",
+    "⏭": "#00a6ed",
+    "⏮": "#00a6ed",
+    "⏯": "#00a6ed",
+    "⏸": "#00a6ed",
+    "⏹": "#00a6ed",
+    "⏺": "#00a6ed",
+    "⏲": "#00a6ed",
+    "⚓": "#00a6ed",
+    "♿": "#00a6ed",
+    "☕": "#7d4533",
+    "⚡": "#ff822d",
+    "⛔": "#f8312f",
+    "⛽": "#f8312f",
+    "❌": "#f92f60",
+    "❓": "#f8312f",
+    "❗": "#f8312f",
+    "⏰": "#c12b2a",
+    "⛺": "#86d72f",
+    "✅": "#00d26a",
+    "❎": "#00d26a",
+    "✊": "#fdd641",
+    "☝": "#fdd641",
+    "✋": "#fdd641",
+    "✌": "#fdd641",
+    "✍": "#fdd641",
+    "⭐": "#fdd641",
+    "✨": "#fdd641",
+    "⏳": "#ffb02e",
+    "⛵": "#fcd53f",
+    "⛹": "#ff6723",
+    "⛪": "#ffce7c", 
+    "⛲": "#b4acbc",
+    "⏱": "#ffffff",
+    "⚽": "#3f5fff",
+    "⚪": "#ffffff",
+    "⚾": "#f4f4f4",
+    "⛄": "#ffffff",
+    "⛅": "#fee9b8",
+    "⬜": "#ffffff"
+  }
+
+
+
+
+
+
+
 const deltaRgb_ = (rgb1, rgb2) => {
   const [ r1, g1, b1 ] = rgb1,
         [ r2, g2, b2 ] = rgb2,
@@ -105,6 +210,35 @@ function deltaE_(labA, labB){
   return i < 0 ? 0 : Math.sqrt(i);
 }
 
+function hexToRgb_(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? [
+    parseInt(result[1], 16),
+    parseInt(result[2], 16),
+    parseInt(result[3], 16)
+   ] : null;
+}
+
+const R_ = (a=1,b=2) => ( Math.floor(Math.random()*(b-a+1))+a )
+ 
+const getEmoji_ = (r,g,b) => { 
+  let diff = Infinity,hex=''
+  const lab = xyzToLAB_( rgbToXYZ_(r,g,b) )
+  for(let key in emojisObject){
+    const arr = hexToRgb_(emojisObject[key])
+    const labPom = xyzToLAB_( rgbToXYZ_(...arr) )
+    const del = deltaE_(lab,labPom)
+    if(del<diff){
+      diff=del 
+      hex=emojisObject[key]
+    }
+  }
+  let similar = []
+  for(let key in emojisObject)
+    if(emojisObject[key]==hex)
+      similar.push(key)
+  return similar[R_(0,similar.length-1)]
+}
 
 
 const LZW={compress:function(f){"use strict";var a,g,d,c={},b="",e=[],h=256;for(a=0;a<256;a+=1)c[String.fromCharCode(a)]=a;for(a=0;a<f.length;a+=1)d=b+(g=f.charAt(a)),c.hasOwnProperty(d)?b=d:(e.push(c[b]),c[d]=h++,b=String(g));return""!==b&&e.push(c[b]),e},decompress:function(e){"use strict";var a,b,f,g,d=[],c="",h=256;for(a=0;a<256;a+=1)d[a]=String.fromCharCode(a);for(a=1,f=b=String.fromCharCode(e[0]);a<e.length;a+=1){if(d[g=e[a]])c=d[g];else{if(g!==h)return null;c=b+b.charAt(0)}f+=c,d[h++]=b+c.charAt(0),b=c}return f}}
