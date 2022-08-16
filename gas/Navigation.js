@@ -15,4 +15,3 @@ const tutorial = () => SpreadsheetApp.getUi().alert('tutorial section is still t
 
 const thanks = (data) => SpreadsheetApp.getUi().showSidebar( new Template('html/boilerplate',{body:'html/thanks',...data}).evaluateWithTitle('Pixel Art Creator - Thanks') ) 
  
- 
