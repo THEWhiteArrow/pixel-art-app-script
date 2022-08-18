@@ -18,12 +18,13 @@
     <section id="toastContainer" class="toast-container position-static"></section>
 
     <?!= includePro_('html/boilerplateJS',data) ?>
- 
+
+    <? if(data.logo != false){ ?>
     <section class="container d-flex justify-content-center">
       <!-- <h1 class="my-2">Pixel Art Creator</h1> --> 
       <img id="logo" src="https://res.cloudinary.com/dcj6ujzqj/image/upload/v1660554198/PAC/Pixel_Art_Creator_hw9mey.png" alt="Pixel_Art_Creator_logo">
-
     </section>
+    <? } ?>
 
     
     <? if(data && data.body){ ?>
@@ -31,9 +32,9 @@
     <? } ?>
  
 
- 
-    <?!= includePro_('html/footer') ?>
- 
+    <? if(data.footer != false){ ?>
+      <?!= includePro_('html/footer') ?>
+    <? } ?>
 
   </body>
 </html>
