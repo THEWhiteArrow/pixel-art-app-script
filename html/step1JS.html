@@ -25,6 +25,8 @@
     if(form[i].checked) obj[form[i].name] = form[i].value
     else if(form[i].files) obj.file=form[i].files[0]
     
+    console.log(obj.file.type)
+    if( ['image/jpeg','image/jpg','image/png'].indexOf(obj.file.type)==-1 ) return notify.me([{success:false, message:'Invalid file type'}])
  
     if(obj.file===undefined){return notify.me([{success:false,message:'No file was provided'}])}
     for(let i = 0 ; i < form.length ; ++i )form[i].setAttribute('disabled',true)
